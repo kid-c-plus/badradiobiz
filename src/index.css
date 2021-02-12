@@ -1,0 +1,723 @@
+@font-face {
+    font-family: ArgentPixel;
+    src: url("fonts/ArgentPixelCF-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: ArgentPixel;
+    font-style: italic;
+    src: url("fonts/ArgentPixelCF-Italic.otf") format("opentype");
+}
+
+html, body {
+    overflow: hidden;
+}
+
+body {
+    position: relative;
+    width: 100vw;
+    height: calc(var(--vw, 1vw) * 100);
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    margin: 0px;
+    background-color: #000;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: 100;
+    -webkit-text-size-adjust: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+@media only screen and (min-width: 900px) and (max-height: 600px) {
+    body {
+        height: 600px;
+    }
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.link, .solidlink, .dottedlink {
+    cursor: pointer;
+}
+
+.solidlink {
+    border-bottom: 1px solid;
+    border-color: inherit;
+}
+
+.dottedlink {
+    border-bottom: 1px dotted;
+    border-color: inherit;
+}
+
+.selected {
+    font-style: italic;
+    font-family: "ArgentPixel", serif;
+    cursor: default;
+}
+
+.link:hover {
+    font-style: italic;
+    font-family: "ArgentPixel", serif;
+}
+
+.dottedlink:hover {
+    border-bottom: 1px solid;
+    border-color: inherit;
+}
+
+.pixelfont {
+    font-style: italic;
+    font-family: "ArgentPixel",  serif;
+}
+
+#gridwrapper {
+    height: 100%;
+    display: grid;
+    grid-gap: 0px;
+    grid-template-rows: 15% 10% 10% 65%;
+    grid-template-areas:
+        "header"
+        "nav"
+        "acabmarquee"
+        "content";
+}
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    padding-top: 40px; 
+    padding-bottom: 40px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    margin: auto;
+    width: fit-content;
+    padding: 10px;
+}
+
+#flierimgcontainer {
+    margin: auto;
+    max-width: 90%;
+    height: auto;
+    position: relative;
+}
+
+#flierimg {
+    max-width: 100%;
+    height: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    color: inherit; 
+    font-size: 1em;
+    font-weight: normal;
+}
+
+#header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+}
+
+#headerimg {
+    margin: auto;
+    width: 90%;
+    max-width: 350px;
+    height: 2em;
+    cursor: pointer;
+}
+
+#navbar {
+    grid-area: nav;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+}
+
+.navelem {
+    display: flex;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    border-left: 1px solid;
+    border-color: inherit;
+}
+
+#streamnavcontainer {
+    border-left: 0;
+}
+
+#acabmarqueecontainer {
+    grid-area: acabmarquee;
+    /* width: 100%; */
+    display: flex;
+    align-items: center;
+    padding: 0 15px; 
+    overflow: hidden;
+}
+
+#acabmarquee {
+    font-size: 2em;
+    white-space: nowrap;
+}
+
+#contentcontainer {
+    grid-area: content;
+    display: block;
+    overflow: hidden;
+}
+
+#streaminfocontainer {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 25% 75%;
+    grid-template-areas:
+        "stream"
+        "infochat";
+    height: 100%;
+}
+
+#streamcontainer {
+    grid-area: stream;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+#radioplayer {
+    display: grid;
+    grid-template: "a b c";
+    grid-template-rows: 100%;
+    height: 53.3%;
+    width: 90%;
+}
+
+#radioplay, #radiovolume {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF;
+    cursor: pointer;
+}
+
+#radioplayicon, #radiovolumeicon {
+    max-height: 80%;
+    width: auto;
+}
+
+#radiostatuscontainer {
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    padding: 0 15px; 
+    overflow: hidden;
+}
+
+#radiostatus {
+    font-size: 1em;
+    white-space: nowrap;
+}
+
+
+.innerstatus {
+    display: inline-block;
+    padding: 0 15px;
+}
+
+.marqueecontainer {
+    position: relative;
+    overflow: hidden;
+}
+
+.marquee {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    position: relative;
+    animation: marquee 12s linear infinite;
+    animation-play-state: running;
+}
+
+.nonmarquee {
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+#infochatcontainer {
+    grid-area: infochat;
+    display: grid;
+    grid-template-rows: auto 100%;
+    grid-template-columns: 100%;
+    grid-template-areas:
+        "info"
+        "chat";
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#infochatcontainer.nocomments {
+    grid-template-rows: auto 0;
+}
+
+#infocontainer {
+    grid-area: info;
+    border-bottom: 1px solid;
+    border-color: inherit; 
+    padding: 0 30px 30px 30px;
+}
+
+.statnames {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.stats {
+    text-align: center;
+}
+
+#stream_url {
+    overflow-wrap: break-word;
+}
+
+#chatcontainer {
+    grid-area: chat;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 15% 70% 15%;
+}
+
+#chatcontainer.nocomments {
+    display: none;
+}
+
+#infocontainer.nocomments {
+    border-bottom: 0;
+}
+
+#chatheader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    font-size: 1em;
+}
+
+#commentcontainer {
+    overflow: auto;
+}
+
+#commentparent {
+    padding: 15px 0;
+}
+
+#morearrow {
+    display: block;
+    position: absolute;
+    bottom: -5px;
+    right: 5px;
+}
+
+.commentrow {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: auto;
+}
+
+.commentnamecontainer, .commenttextcontainer {
+    padding: 15px 30px;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.commentnamecontainer, #nameinputcontainer {
+    padding-right: 5px;
+}
+
+.commentname, .commenttext {
+    width: 100%;
+}
+
+#commenteditor {
+    display: grid;
+    grid-template-columns: 30% 50% 20%;
+}
+
+#submittingcommenteditor {
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+.inputcontainer {
+    margin: 0;
+    padding: 0px 30px;
+    border: 0;
+    background-color: inherit;
+}
+
+.input {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: inherit;
+    color: inherit;
+    font-size: 1em;
+}
+
+.input:focus {
+    outline: none;
+}
+
+::placeholder {
+    color: inherit;
+    opacity: 0.5;
+}
+
+#commentsubmit {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: #FFF;
+    color: #000;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+}
+
+#schedulecontainer {
+    height: 100%;
+    overflow: scroll;
+}
+
+#scheduletable {
+    border-collapse: collapse;
+    border-color: inherit;
+    margin: 0;
+    display: block;
+}
+
+table td, table th {
+    box-sizing: border-box;
+    padding: 30px 0;
+    border: 1px solid;
+    border-color: inherit;
+    text-align: center;
+}
+
+table th {
+    width: 100%;
+}
+
+table td {
+    width: 100%;
+    border: 0;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-color: inherit;
+}
+
+thead, tbody {
+    display: block;
+    width: 100%;
+}
+
+tr {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.timerow {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: auto;
+}
+
+.csttimes, .scheduletime, .sunday, .monday, .tuesday, .wednesday, .thursday, .friday, .saturday {
+    overflow: visible;
+    white-space: normal;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.scheduletime {
+    border: 0;
+    border-bottom: 1px solid;
+    border-color: inherit;
+    padding: 30px;
+    font-style: italic;
+    font-family: "ArgentPixel", serif;
+}
+
+.selector {
+    width: 100%;
+    height: 140px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    border-bottom: 1px solid;
+    border-color: inherit;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.selector:hover, .selectedselector {
+    font-style: italic;
+    font-family: "ArgentPixel", serif;
+}
+
+#applicationcontainer {
+    height: 100%;
+    overflow: hidden;
+    background-color: inherit;
+}
+
+#applicationembed {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    margin-bottom: 5%;
+    border: 0;
+}
+
+@media only screen and (min-width: 900px) {
+    #gridwrapper {
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 10% 10% 80%;
+        grid-template-areas:
+            "header nav"
+            "acabmarquee acabmarquee"
+            "content content";
+    }
+    
+    #header {
+        padding: 10px 30px;
+    }
+        
+    #headerimg {
+        margin: 0;
+        width: 337.5px;
+    }
+
+    .navelem {
+        font-size: 2em;
+    }
+
+    #streamnavcontainer {
+        border-left: 1px solid;
+        border-color: inherit;
+    }
+
+    #streamplayer {
+        width: 40%;
+    }
+
+    #radiostatus {
+        font-size: 1em;
+    }
+
+    #infochatcontainer {
+        grid-area: infochat;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 100%;
+        grid-template-areas:
+            "info chat";
+    }
+
+    #infochatcontainer.nocomments {
+        grid-template-columns: 100%;
+        grid-template-rows: 100%;
+        grid-template-areas:
+            "info";
+    }
+
+    #infocontainer.nocomments {
+        margin: auto 25%;
+        border: 1px solid;
+        border-color: inherit;
+        height: 80%;
+        grid-template-columns: 40% 60%;
+        overflow: hidden;
+    }
+
+    #streaminfocontainer {
+        grid-template-rows: 40% 60%;
+    }
+    
+    #radioplayer {
+        width: 40%;
+        height: 27.777%;
+    }
+
+    #infocontainer {
+        grid-area: info;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 10% repeat(6, auto) 10%;
+        padding: 0;
+        border-bottom: 0;
+    }
+    
+    .statnames {
+        display: flex;
+        margin-top: 0;
+        margin-left: auto;
+        padding: 0 30px;
+        align-items: center;
+        text-align: right;
+    }
+
+    .stats {
+        display: flex;
+        padding: 0 30px;
+        align-items: center; 
+        text-align: left;
+        border-left: 1px solid;
+        border-color: inherit;
+    }
+
+    #chatcontainer {
+        height: auto;
+        border-left: 1px solid;
+        border-color: inherit;
+        grid-template-rows: 10% 80% 10%;
+    }
+
+    #chatheader {
+        padding: 0;
+    }       
+
+    .commentrow {
+        grid-template-columns: 20% 80%;
+    }
+
+    #commenteditor {
+        grid-template-columns: 20% 65% 15%;
+    }
+
+    #scheduletable {
+        margin: 30px;
+        display: table;
+        border: 0;
+        border-top: 1px solid;
+        border-right: 1px solid;
+        border-color: inherit;
+    }
+
+    table th {
+        font-style: italic;
+        font-family: "ArgentPixel", serif;
+    }
+
+    thead, tbody {
+        display: table-header-group;
+        width: 100%;
+    }
+
+    tr, .timerow {
+        display: grid;
+        grid-template-columns: repeat(8, 12.5%);
+        grid-gap: 0px;
+        overflow: visible;
+        white-space: normal;
+    }
+
+    .selector, .csttimes, .scheduletime, .sunday, .monday, .tuesday, .wednesday, .thursday, .friday, .saturday {
+        width: 100%;
+        padding: 30px 10px;
+        border: 0;
+        border-bottom: 1px solid;
+        border-left: 1px solid;
+        border-color: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 1.5em;
+        cursor: default;
+    }
+    
+    .linkdiv {
+        display: inline-block;
+        overflow-wrap: break-word;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    #schedulenav {
+        cursor: pointer;
+    }
+    
+    table td {
+        border-bottom: 1px solid; 
+        border-color: inherit;
+    }
+
+    tbody tr:last-child th {
+        border-bottom: 0;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    #saturdayselector {
+        border-bottom: 0
+    }
+
+    #saturdayselector.selectedselector {
+        border-bottom: 1px solid;
+        border-color: inherit;
+    }
+}
+
+/* i have to define these last because in css the last rule takes precedence */
+.borderleft {
+    border-left: 1px solid;
+    border-color: inherit; 
+}
+
+.borderbottom {
+    border-bottom: 1px solid;
+    border-color: inherit; 
+}
+
