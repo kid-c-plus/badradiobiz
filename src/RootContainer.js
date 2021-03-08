@@ -18,24 +18,25 @@ const THEME_POLL_INTERVAL           = 5000;
 
 const THEMES = {
     "classic": ["#000000", "#FFFFFF"],
-	"toxic-sludge": ["#000000", "#49FC03"],
-	"night-peach": ["#302A5C", "#F2CCC2"],
-	"badboy-endless": ["#000000", "#FF4D00"],
-	"solid-gold": ["#000000", "#FFD700"],
-	"halloween-experience": ["#262626", "#FFA07A"],
-	"pomegranate-visions": ["#692D2F", "#DDB5A7"],
-	"turquoise-tortoise": ["#033A48", "#D99B9B"],
-	"scoobydoo-alienencounter": ["#07023A", "#BDB663"],
-	"poolside-underwater": ["#9DC7AF", "#03324C"],
-	"purple-reign": ["#473946", "#BF801E"],
-	"grapefruit-stone": ["#DF725D", "#393C44"],
-	"forest-florist": ["#40572E", "#FBD6E4"],
-	"abba-vacation": ["#066A98", "#D7C8F0"],
-	"unreadably-cute": ["#8778F9", "#F7E0FE"],
-	"meadowtations": ["#FFCC00", "#CC0000"], 
+    "toxic-sludge": ["#000000", "#49FC03"],
+    "night-peach": ["#302A5C", "#F2CCC2"],
+    "badboy-endless": ["#000000", "#FF4D00"],
+    "solid-gold": ["#000000", "#FFD700"],
+    "halloween-experience": ["#262626", "#FFA07A"],
+    "pomegranate-visions": ["#692D2F", "#DDB5A7"],
+    "turquoise-tortoise": ["#033A48", "#D99B9B"],
+    "scoobydoo-alienencounter": ["#07023A", "#BDB663"],
+    "poolside-underwater": ["#9DC7AF", "#03324C"],
+    "purple-reign": ["#473946", "#BF801E"],
+    "grapefruit-stone": ["#DF725D", "#393C44"],
+    "forest-florist": ["#40572E", "#FBD6E4"],
+    "abba-vacation": ["#066A98", "#D7C8F0"],
+    "unreadably-cute": ["#8778F9", "#F7E0FE"],
+    "meadowtations": ["#FFCC00", "#CC0000"], 
     "lumbersexual": ["#003300", "#CC0000"],
     "saint-valentine": ["#FF9999", "#CC0033"],
-    "meadowtations-dark-mode": ["#CC0000", "#FFCC00"]
+    "meadowtations-dark-mode": ["#CC0000", "#FFCC00"],
+    "tea-shop": ["#DFCDCA", "#363D34"]
 };
 const DEFAULT_THEME = "classic";
 
@@ -141,10 +142,10 @@ class RootContainer extends React.Component {
                         <a id="applynav">APPLY</a>
                     </div>
                 </div>
-                <a id="acabmarqueecontainer" className="marqueecontainer borderbottom link fginborder" href="https://secure.actblue.com/donate/blacktrans-queer" target="_blank">
-                    <div id="acabmarquee" className="marquee pixelfont" style={{animationDuration: "56.9s"}} >
-                        •<span className="innerstatus pixelfont">BLACK LIVES MATTER</span>•<span className="innerstatus pixelfont">CLICK HERE TO DONATE TO BLACK TRANS ORGANIZATIONS NATIONWIDE</span>•<span className="innerstatus pixelfont">ALL COPS ARE BASTARDS</span>•<span className="innerstatus pixelfont">JUSTICE FOR VICTIMS OF POLICE BRUTALITY</span>
-                        •<span className="innerstatus pixelfont">BLACK LIVES MATTER</span>•<span className="innerstatus pixelfont">CLICK HERE TO DONATE TO BLACK TRANS ORGANIZATIONS NATIONWIDE</span>•<span className="innerstatus pixelfont">ALL COPS ARE BASTARDS</span>•<span className="innerstatus pixelfont">JUSTICE FOR VICTIMS OF POLICE BRUTALITY</span>
+                <a id="acabmarqueecontainer" className="marqueecontainer borderbottom link fginborder" style={{borderColor: THEMES[this.state.theme][1]}} href="https://secure.actblue.com/donate/blacktrans-queer" target="_blank">
+                    <div id="acabmarquee" className="marquee pixelfont" style={{animationDuration: "54.25s"}} >
+                        •<span className="innerstatus pixelfont">BLACK LIVES MATTER</span>•<span className="innerstatus pixelfont">CLICK HERE TO DONATE TO BLACK TRANS ORGANIZATIONS NATIONWIDE</span>•<span className="innerstatus pixelfont">BADNEFIT RADIOTHON</span>•<span className="innerstatus pixelfont">MARCH 27TH</span>•<span className="innerstatus pixelfont">NOON TO MIDNIGHT CST</span>
+                        •<span className="innerstatus pixelfont">BLACK LIVES MATTER</span>•<span className="innerstatus pixelfont">CLICK HERE TO DONATE TO BLACK TRANS ORGANIZATIONS NATIONWIDE</span>•<span className="innerstatus pixelfont">BADNEFIT RADIOTHON</span>•<span className="innerstatus pixelfont">MARCH 27TH</span>•<span className="innerstatus pixelfont">NOON TO MIDNIGHT CST</span>
                     </div>
                 </a>
                 <div id="contentcontainer">
