@@ -112,7 +112,9 @@ class StreamContainer extends React.Component {
         this.player.volume = volume / 3;
         // set state based on actual volume so that on platforms where volume can't be set 
         // (e.g. mobile browser) it doesn't display an improper value
-        this.setState({volume: Math.round(this.player.volume * 3)});
+        // although immediately after it's set, it seems to retain an inaccurate value before resetting itself
+        // hence the quick timeout
+        setTimeout(() => this.setState({volume: Math.round(this.player.volume * 3)}), 100);
     }
 
     handleFieldChange(fieldName, changeEvent) {
@@ -206,6 +208,10 @@ class StreamContainer extends React.Component {
     }
 
     componentDidUpdate() {
+        if ((this.playButtonElem && this.playButtonElem.offsetWidth !== this.playButtonElem.offsetHeight) || (this.volumeButtonElem && this.volumeButtonElem.offsetWidth !== this.volumeButtonElem.offsetHeight)) {
+            this.handleWindowResize();
+        }
+
         if (this.radioStatusElem) {
             let newAnimationDuration = `${this.radioStatusElem.offsetWidth / 2 / MARQUEE_PPS}s`;
             if (newAnimationDuration !== this.state.statusAnimationDuration) {
@@ -255,13 +261,14 @@ class StreamContainer extends React.Component {
             </React.Fragment>
         ));
 
+        // calls dangerouslySetInnerHTML on comment text that's first been sanitized with python bleach library and then parsed for <a> links
         let commentDisplayElems = this.state.comments ? Object.keys(this.state.comments).map(commentId => (
             <div id={`comment${commentId}`} className="commentrow" key={`${commentId}:${this.state.comments[commentId]['name']}:${this.state.comments[commentId]['comment']}`} ref={this.elementRefCallback.bind(this, 'latestCommentElem')}>
                 <div className="commentnamecontainer">
                     <a className="commentname pixelfont">{this.state.comments[commentId]['name']}</a>
                 </div>
                 <div className="commenttextcontainer">
-                    <a className="commenttext">{this.state.comments[commentId]['comment']}</a>
+                    <a className="commenttext" dangerouslySetInnerHTML={{__html: this.state.comments[commentId]['comment']}} />
                 </div>
             </div>
         )) : null;
@@ -269,7 +276,7 @@ class StreamContainer extends React.Component {
         let radioStatusTextElem = null;
         if (this.state.showPlaying) {
             radioStatusTextElem = [];
-            [...Array(8).keys()].map(index => radioStatusTextElem.push(<div className="innerstatus" key={`innerstatus${index}`}>Live Now: <span className="pixelfont">{this.state.streamInfo['server_name']}</span>{(this.state.streamInfo['title'] && !(substituteNull(this.state.streamInfo['title']) in ["None", "-"])) ? ` playing ${this.state.streamInfo['title']}` : null}</div>));
+            [...Array(8).keys()].map(index => radioStatusTextElem.push(<div className="innerstatus" key={`innerstatus${index}`}>Live Now: <span className="pixelfont">{this.state.streamInfo['server_name'].toUpperCase()}</span>{(this.state.streamInfo['title'] && !(substituteNull(this.state.streamInfo['title']) in ["None", "-"])) ? ` playing ${this.state.streamInfo['title']}` : null}</div>));
         } else {
             radioStatusTextElem = (this.state.streamInfo ? (this.state.streamInfo['server_name'] || "Stream Offline") : "LOADING...");
         }
@@ -282,7 +289,7 @@ class StreamContainer extends React.Component {
                         <div id="radioplay" style={{backgroundColor: THEMES[this.props.theme][1], color: THEMES[this.props.theme][0], width: this.state.playButtonWidth}} onClick={this.togglePlayState.bind(this)} ref={this.elementRefCallback.bind(this, 'playButtonElem')}>
                             <img id="radioplayicon" className="themeresponsiveimg" src={`img/${this.state.paused ? "play" : "pause"}-${this.props.theme}.png`} />
                         </div>
-                        <div id="radiostatuscontainer" className={this.state.showPlaying ? "marqueecontainer" : "nonmarquee"} style={{width: this.state.radioStatusWidth}} ref={this.elementRefCallback.bind(this, 'statusContainerElem')}>
+                        <div id="radiostatuscontainer" className={this.state.showPlaying ? "marqueecontainer" : "nonmarquee"} style={{width: this.state.radioStatusWidth, borderColor: THEMES[this.props.theme][1]}} ref={this.elementRefCallback.bind(this, 'statusContainerElem')}>
                             <div id="radiostatus" className={this.state.showPlaying ? "marquee" : null} style={{animationDuration: this.state.statusAnimationDuration}} ref={this.elementRefCallback.bind(this, 'radioStatusElem')}>
                                 {radioStatusTextElem}
                             </div>

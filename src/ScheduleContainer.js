@@ -3,7 +3,7 @@ import React from 'react';
 // constants
 
 // url to pull schedule info from
-const SCHEDULE_URI = "schedule.json";
+const SCHEDULE_URI = `schedule.json?v=${Date.now()}`;
 
 // time hour at which to start printing shows out as part of the new day and not the night before
 // here, anything before 3 AM will show under the column of the previous day
@@ -26,7 +26,19 @@ class ScheduleContainer extends React.Component {
     loadSchedule() {
         fetch(SCHEDULE_URI)
         .then(response => response.json())
-        .then(schedule => this.setState({schedule: schedule}));
+        .then(inputSchedule => {
+            let schedule = inputSchedule.map(day => ({...day}));
+
+            // move all shows from before the display changeover time to the previous hour
+            [...Array(7).keys()].map(day => {
+                Object.keys(inputSchedule[day]).filter(hour => hour < DISPLAY_CHANGE_TIME).map(shiftedHour => {
+                    schedule[(day + 6) % 7][shiftedHour] = schedule[day][shiftedHour];
+                    delete schedule[day][shiftedHour];
+                });
+            });
+
+            this.setState({schedule: schedule})
+        });
     }
 
     // click handler for mobile schedule display
@@ -74,7 +86,7 @@ class ScheduleContainer extends React.Component {
             hours = [...Array(end > start ? end - start + 1 : end - start + 25).keys()].map(hour => (hour + start) % 24);
 
             // JSX array of <th> elements for each time
-            timeHeaders = hours.map(hour => <th className="scheduletime" key={`hour${hour}`}>{hour < 12 ? (hour == 0 ? "12" : hour.toString()) : (hour - 12).toString()}:00 {hour < 12 ? "AM" : "PM"}</th>);
+            timeHeaders = hours.map(hour => <th className="scheduletime" key={`hour${hour}`}>{hour <= 12 ? (hour == 0 ? "12" : hour.toString()) : (hour - 12).toString()}:00 {hour < 12 ? "AM" : "PM"}</th>);
 
             // JSX array of 7 arrays of show <td> elements
             showEntries = [...Array(7).keys()].map(day => (
